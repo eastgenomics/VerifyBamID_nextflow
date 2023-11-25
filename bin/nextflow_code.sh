@@ -5,24 +5,35 @@
 set -e -x -o pipefail
 
 ### for local testing remove need to download
+echo "running script"
 
-vcf_file_name="$1"
-input_bam_name="$2"
+vcf_file="$1"
+input_bam="$2"
 input_bam_bai="$3"
+ # tool_path="$4"
+pathToBin="nextflow-bin"
 
+# get file names
+vcf_file_name=$(dx describe ${vcf_file} --name)
+input_bam_name=$(dx describe ${input_bam} --name)
+bam_bai_name=$(dx describe ${input_bam_bai} --name)
 
-# dx download "$input_bam" -o "$input_bam_name"
-# dx download "$input_bam_index" -o "${input_bam_prefix}.bai"
-# dx download "$vcf_file" -o "$vcf_file_name"
+# download files
+dx download "$input_bam" -o "$input_bam_name"
+dx download "$input_bam_bai" -o "$bam_bai_name"
+dx download "$vcf_file" -o "$vcf_file_name"
+# dx download "$tool_path" -o "verifyBamID"
 
 # Create output directory
 mkdir -p out/verifybamid_out/
+
 
 # Call verifyBamID for contamination check. The following notable options are passed:
 # --ignoreRG; to check the contamination for the entire BAM rather than examining individual read groups
 # --precise; calculate the likelihood in log-scale for high-depth data (recommended when --maxDepth is greater than 20)
 # --maxDepth 1000; For the targeted exome sequencing, --maxDepth 1000 and --precise is recommended.
-~/Documents/bioinformatics/eggd_verifybamid/resources/usr/bin/verifyBamID --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --out out/verifybamid_out/ \
+verifyBamID --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --out out/verifybamid_out/ \
      --verbose --ignoreRG --precise --maxDepth 1000
 
 # Upload results to DNAnexus
+dx-upload-all-outputs
