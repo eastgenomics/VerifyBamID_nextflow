@@ -25,15 +25,19 @@ dx download "$vcf_file" -o "$vcf_file_name"
 # dx download "$tool_path" -o "verifyBamID"
 
 # Create output directory
-mkdir -p out/verifybamid_out/
+mkdir ./verifybamid_out
 
+ls $pathToBin
+# get verifybamID
+# chmod -R ${pathToBin}/*
+
+export VERIFYBAMID_BIN=${pathToBin}/verifyBamID
 
 # Call verifyBamID for contamination check. The following notable options are passed:
 # --ignoreRG; to check the contamination for the entire BAM rather than examining individual read groups
 # --precise; calculate the likelihood in log-scale for high-depth data (recommended when --maxDepth is greater than 20)
 # --maxDepth 1000; For the targeted exome sequencing, --maxDepth 1000 and --precise is recommended.
-verifyBamID --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --out out/verifybamid_out/ \
-     --verbose --ignoreRG --precise --maxDepth 1000
+$VERIFYBAMID_BIN --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --verbose --ignoreRG --precise --maxDepth 1000 --out ./verifybamid_out
 
 # Upload results to DNAnexus
 dx-upload-all-outputs

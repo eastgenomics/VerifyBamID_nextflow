@@ -3,7 +3,6 @@ nextflow.enable.dsl=2
 params.vcf_file = ""
 params.bam_file = ""
 params.bam_bai = ""
-params.tool_path = ""
 params.outdir = "./verifybamid_output" //name of output folder
 
 include { VERIFYBAMID } from './modules/VERFIYBAMID'
@@ -14,7 +13,7 @@ include { HELLOWORLD } from './modules/HELLOWORLD'
 workflow{
 
   HELLOWORLD()
-  VERIFYBAMID(params.vcf_file, params.bam_file, params.bam_bai, params.tool_path)
+  VERIFYBAMID(params.vcf_file, params.bam_file, params.bam_bai)
 }
 
 
