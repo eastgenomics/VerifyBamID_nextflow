@@ -7,9 +7,9 @@ set -e -x -o pipefail
 ### for local testing remove need to download
 echo "running script"
 
-vcf_file="$1"
-input_bam="$2"
-input_bam_bai="$3"
+vcf_file=$(echo ${1} |sed -e "s/dx:\/\///")
+input_bam=$(echo ${2} | sed -e "s/dx:\/\///")
+input_bam_bai=$(echo ${3} | sed -e "s/dx:\/\///")
  # tool_path="$4"
 pathToBin="nextflow-bin"
 
