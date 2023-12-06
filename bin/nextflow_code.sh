@@ -37,7 +37,12 @@ export VERIFYBAMID_BIN=${pathToBin}/verifyBamID
 # --ignoreRG; to check the contamination for the entire BAM rather than examining individual read groups
 # --precise; calculate the likelihood in log-scale for high-depth data (recommended when --maxDepth is greater than 20)
 # --maxDepth 1000; For the targeted exome sequencing, --maxDepth 1000 and --precise is recommended.
-$VERIFYBAMID_BIN --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --verbose --ignoreRG --precise --maxDepth 1000 --out ./verifybamid_out
+$VERIFYBAMID_BIN --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --ignoreRG --precise --maxDepth 1000 --out ./verifybamid_out
+
+echo "print current directory"
+pwd
+ls .
+# move outputs to name of sample
 
 # Upload results to DNAnexus
 dx-upload-all-outputs

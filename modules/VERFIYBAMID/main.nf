@@ -9,6 +9,11 @@ process VERIFYBAMID
     val bam_file
     val bam_bai
 
+  output:
+    path "*.depthSM"
+    path "*.log"
+    path "*.selfSM"
+
   script:
     """
     echo $vcf_file
