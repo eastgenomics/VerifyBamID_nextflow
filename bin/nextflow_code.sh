@@ -8,26 +8,22 @@ set -e -x -o pipefail
 echo "running script"
 
 vcf_file=$(echo ${1} |sed -e "s/dx:\/\///")
-input_bam=$(echo ${2} | sed -e "s/dx:\/\///")
-input_bam_bai=$(echo ${3} | sed -e "s/dx:\/\///")
- # tool_path="$4"
+input_bam="$2"
+input_bam_bai="$3"
 pathToBin="nextflow-bin"
+nameOfSample=${input_bam%%.*}
 
 # get file names
 vcf_file_name=$(dx describe ${vcf_file} --name)
-input_bam_name=$(dx describe ${input_bam} --name)
-bam_bai_name=$(dx describe ${input_bam_bai} --name)
 
 # download files
-dx download "$input_bam" -o "$input_bam_name"
-dx download "$input_bam_bai" -o "$bam_bai_name"
+
 dx download "$vcf_file" -o "$vcf_file_name"
 # dx download "$tool_path" -o "verifyBamID"
 
 # Create output directory
 mkdir ./verifybamid_out
 
-ls $pathToBin
 # get verifybamID
 # chmod -R ${pathToBin}/*
 
@@ -37,12 +33,9 @@ export VERIFYBAMID_BIN=${pathToBin}/verifyBamID
 # --ignoreRG; to check the contamination for the entire BAM rather than examining individual read groups
 # --precise; calculate the likelihood in log-scale for high-depth data (recommended when --maxDepth is greater than 20)
 # --maxDepth 1000; For the targeted exome sequencing, --maxDepth 1000 and --precise is recommended.
-$VERIFYBAMID_BIN --vcf ${vcf_file_name} --bam ${input_bam_name} --bai ${input_bam_bai} --ignoreRG --precise --maxDepth 1000 --out ./verifybamid_out
+$VERIFYBAMID_BIN --vcf ${vcf_file_name} --bam ${input_bam} --bai ${input_bam_bai} --ignoreRG --precise --maxDepth 1000 --out verifybamid_out
 
-echo "print current directory"
-pwd
-ls .
 # move outputs to name of sample
-
-# Upload results to DNAnexus
-dx-upload-all-outputs
+mv verifybamid_out.depthSM ${nameOfSample}.depthSM
+mv verifybamid_out.selfSM ${nameOfSample}.selfSM
+mv verifybamid_out.log ${nameOfSample}.log

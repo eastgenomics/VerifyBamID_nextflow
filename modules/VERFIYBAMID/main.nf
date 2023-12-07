@@ -1,13 +1,12 @@
 process VERIFYBAMID
 {
-
+  tag "${reads[0]}, ${reads[1]}"
   debug true
   publishDir params.outdir, mode:'copy'
 
   input:
+    tuple val(sample_id), path(reads)
     val vcf_file
-    val bam_file
-    val bam_bai
 
   output:
     path "*.depthSM"
@@ -17,8 +16,7 @@ process VERIFYBAMID
   script:
     """
     echo $vcf_file
-    echo $bam_file
-    echo $bam_bai
-    bash nextflow-bin/nextflow_code.sh $vcf_file $bam_file $bam_bai
+    echo $reads
+    bash nextflow-bin/nextflow_code.sh $vcf_file ${reads[0]} ${reads[1]}
     """
 }
