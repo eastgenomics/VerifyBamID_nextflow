@@ -16,5 +16,5 @@ a repository for testing verifybamid with nextflow, to run on DNAnexus
 ```
 **example**
 ```
-dx run applet-Gbjp6p84F1B1VkP35y8Bg20B  -inextflow_pipeline_params="--file_path=dx://project-GZgkB004F1B5G56VK7K1bvYZ:/input_data/test_inputs/"
+dx run applet-Gf1JB2j4F1BFx1b2y9gQKJg7  -inextflow_pipeline_params="--file_path=dx://project-GZgkB004F1B5G56VK7K1bvYZ:/input_data/test_inputs/"
 ```
