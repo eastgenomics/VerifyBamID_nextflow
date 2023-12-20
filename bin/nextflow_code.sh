@@ -19,13 +19,9 @@ vcf_file_name=$(dx describe ${vcf_file} --name)
 # download files
 
 dx download "$vcf_file" -o "$vcf_file_name"
-# dx download "$tool_path" -o "verifyBamID"
 
 # Create output directory
 mkdir ./verifybamid_out
-
-# get verifybamID
-# chmod -R ${pathToBin}/*
 
 export VERIFYBAMID_BIN=${pathToBin}/verifyBamID
 
