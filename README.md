@@ -1,14 +1,7 @@
 # VerifyBamID_nextflow #
 
-a repository for testing verifybamid with nextflow, to run on DNAnexus
+a repository for a verifybamID nextflow workflow designed to run on DNAnexus
 
-
-### To build verifybamid_nextflow on DNAnexus
-```
- git clone <repo>
- dx select <DNAnexus project>
- dx build --nextflow (inside the cloned folder)
- ```
 ### To run verifybamid_nextflow on DNAnexus
  ```
  dx run applet-XXXXX \
